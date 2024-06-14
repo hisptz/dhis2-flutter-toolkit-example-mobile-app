@@ -38,10 +38,10 @@ android {
         applicationId = "com.example.dhis2_flutter_toolkit_demo_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
+         minSdkVersion 21
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     buildTypes {
@@ -55,4 +55,17 @@ android {
 
 flutter {
     source = "../.."
+}
+configurations {
+    debugImplementation {
+        exclude group: 'io.objectbox', module: 'objectbox-android'
+    }
+}
+dependencies {
+    // Add objectbox-android-objectbrowser only for debug builds.
+    // Replace <version> with the included objectbox-android version,
+    // e.g. check https://github.com/objectbox/objectbox-dart/releases
+    // Warning: when ObjectBox for Dart updates check if <version>
+    // needs to be updated.
+    debugImplementation("io.objectbox:objectbox-android-objectbrowser:3.8.0")
 }
