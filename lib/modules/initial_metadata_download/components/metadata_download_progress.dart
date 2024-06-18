@@ -52,7 +52,6 @@ class _MetadataDownloadProgressState extends State<MetadataDownloadProgress>
   Widget build(BuildContext context) {
     TextStyle textStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.amber,
     );
     double spacingWidth = 4.0;
     return StreamBuilder(
@@ -75,7 +74,6 @@ class _MetadataDownloadProgressState extends State<MetadataDownloadProgress>
                       Tween(begin: 0.0, end: 1.0).animate(_animationController),
                   child: const Icon(
                     Icons.sync,
-                    color: Colors.amber,
                   ),
                 ),
               ),

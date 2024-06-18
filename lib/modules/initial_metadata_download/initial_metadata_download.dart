@@ -74,7 +74,7 @@ class _InitialMetadataDownloadPageState
     d2reservedValueRepository.setupDownload(client: client);
     // await d2reservedValueRepository.downloadAllReservedValues(
     //     numberToReserve:
-    //         AppConfig.numberToReserve); 
+    //         AppConfig.numberToReserve);
     d2dataStoreRepository.setupDownload(client: client);
     // await d2dataStoreRepository.initializeDownload(
     //     namespaces: AppConfig.namespaces);
@@ -131,117 +131,81 @@ class _InitialMetadataDownloadPageState
   @override
   Widget build(BuildContext context) {
     double spacingHeight = 8.0;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-      child: Center(
-        child: Consumer<D2ClientState>(
-          builder: (BuildContext context, d2Client, child) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MetadataDownloadProgress(
-                metadataLabel: 'user information',
-                downloadController: d2UserRepository.downloadController,
-                onRetry: d2UserRepository.download,
-                onDownload:
-                    d2UserRepository.setupDownload(d2Client.client).download,
-                allowManualTrigger: hasError,
-              ),
-              // spacing
-              SizedBox(height: spacingHeight),
-              MetadataDownloadProgress(
-                metadataLabel: 'system information',
-                downloadController: d2SystemInfoRepository.downloadController,
-                onRetry: d2SystemInfoRepository.download,
-                onDownload: d2SystemInfoRepository
-                    .setupDownload(d2Client.client)
-                    .download,
-                allowManualTrigger: hasError,
-              ),
-              // spacing
-              SizedBox(height: spacingHeight),
-              MetadataDownloadProgress(
-                metadataLabel: 'reporting hierarchy',
-                downloadController: d2OrgUnitRepository.downloadController,
-                onRetry: d2OrgUnitRepository.download,
-                allowManualTrigger: hasError,
-                onDownload: d2OrgUnitRepository
-                    .setupDownload(d2Client.client)
-                    .setPageSize(AppConfig.paging)
-                    .download,
-              ),
-              // spacing
-              SizedBox(height: spacingHeight),
-              Consumer<DBState>(
-                builder: (BuildContext context, dbState, child) =>
-                    MetadataDownloadProgress(
-                  metadataLabel: 'form configurations',
-                  downloadController: d2ProgramRepository.downloadController,
-                  onRetry: d2ProgramRepository.download,
-                  onDownload: () => initializeProgramDownload(
-                      db: dbState.db, client: d2Client.client),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+          child: Consumer<D2ClientState>(
+            builder: (BuildContext context, d2Client, child) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MetadataDownloadProgress(
+                  metadataLabel: 'user information',
+                  downloadController: d2UserRepository.downloadController,
+                  onRetry: d2UserRepository.download,
+                  onDownload:
+                      d2UserRepository.setupDownload(d2Client.client).download,
                   allowManualTrigger: hasError,
                 ),
-              ),
-              SizedBox(height: spacingHeight),
-              // Consumer<D2ClientState>(
-              //   builder: (context, clientState, child) =>
-              //       MetadataDownloadProgress(
-              //     metadataLabel: 'reserved values',
-              //     downloadController:
-              //         d2reservedValueRepository.downloadController,
-              //     onRetry: () async =>
-              //         await d2reservedValueRepository.downloadAllReservedValues(
-              //             numberToReserve: AppConfig.numberToReserve),
-              //     allowManualTrigger: hasError,
-              //     onDownload: () async {
-              //       d2reservedValueRepository.setupDownload(
-              //           client: clientState.client);
-              //       return await d2reservedValueRepository
-              //           .downloadAllReservedValues(
-              //               numberToReserve: AppConfig.numberToReserve);
-              //     },
-              //   ),
-              // ),
-              SizedBox(height: spacingHeight),
-              // Consumer<D2ClientState>(
-              //   builder: (context, clientState, child) =>
-              //       MetadataDownloadProgress(
-              //     metadataLabel: 'job aids',
-              //     downloadController: d2dataStoreRepository.downloadController,
-              //     onRetry: () async => await d2dataStoreRepository
-              //         .initializeDownload(namespaces: AppConfig.namespaces),
-              //     allowManualTrigger: hasError,
-              //     onDownload: () async {
-              //       d2dataStoreRepository.setupDownload(
-              //           client: clientState.client);
-              //       return await d2dataStoreRepository.initializeDownload(
-              //           namespaces: AppConfig.namespaces);
-              //     },
-              //   ),
-              // ),
-              SizedBox(
-                height: spacingHeight * 4,
-              ),
-              Visibility(
-                  visible: hasError,
-                  child: const Center(
-                    child: Text(
-                      'There were some issues syncing the required metadata as indicated above. Click on retry to fix the issues. When done, click on Continue',
-                      textAlign: TextAlign.center,
-                    ),
-                  )),
-              Visibility(
-                  visible: hasError,
-                  child: Center(
-                    child: LoginButton(
-                      isLoginProcessActive: false,
-                      buttonText: 'Continue',
-                      onLogin: () {
-                        context.replace('/');
-                      },
-                    ),
-                  ))
-            ],
+                // spacing
+                SizedBox(height: spacingHeight),
+                MetadataDownloadProgress(
+                  metadataLabel: 'system information',
+                  downloadController: d2SystemInfoRepository.downloadController,
+                  onRetry: d2SystemInfoRepository.download,
+                  onDownload: d2SystemInfoRepository
+                      .setupDownload(d2Client.client)
+                      .download,
+                  allowManualTrigger: hasError,
+                ),
+                // spacing
+                SizedBox(height: spacingHeight),
+                MetadataDownloadProgress(
+                  metadataLabel: 'reporting hierarchy',
+                  downloadController: d2OrgUnitRepository.downloadController,
+                  onRetry: d2OrgUnitRepository.download,
+                  allowManualTrigger: hasError,
+                  onDownload: d2OrgUnitRepository
+                      .setupDownload(d2Client.client)
+                      .setPageSize(AppConfig.paging)
+                      .download,
+                ),
+                SizedBox(height: spacingHeight),
+                Consumer<DBState>(
+                  builder: (BuildContext context, dbState, child) =>
+                      MetadataDownloadProgress(
+                    metadataLabel: 'form configurations',
+                    downloadController: d2ProgramRepository.downloadController,
+                    onRetry: d2ProgramRepository.download,
+                    onDownload: () => initializeProgramDownload(
+                        db: dbState.db, client: d2Client.client),
+                    allowManualTrigger: hasError,
+                  ),
+                ),
+                SizedBox(
+                  height: spacingHeight * 4,
+                ),
+                Visibility(
+                    visible: hasError,
+                    child: const Center(
+                      child: Text(
+                        'There were some issues syncing the required metadata as indicated above. Click on retry to fix the issues. When done, click on Continue',
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                Visibility(
+                    visible: hasError,
+                    child: Center(
+                      child: LoginButton(
+                        isLoginProcessActive: false,
+                        buttonText: 'Continue',
+                        onLogin: () {
+                          context.replace('/');
+                        },
+                      ),
+                    ))
+              ],
+            ),
           ),
         ),
       ),
