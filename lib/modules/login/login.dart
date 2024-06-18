@@ -1,15 +1,9 @@
-
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/components/login_form.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
-
-
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +13,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  Widget selectedPage = Container();
   void navigateAfterLogin() {
     D2User? user = Provider.of<UserState>(context, listen: false).user;
     if (user != null) {
@@ -27,14 +20,13 @@ class _LoginState extends State<Login> {
       return;
     } else {
       setState(() {
-        // _loading = false;
-        selectedPage = const InitialMetadataDownloadPage();
+        InitialMetadataDownloadRoute().go(context);
       });
       return;
     }
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
