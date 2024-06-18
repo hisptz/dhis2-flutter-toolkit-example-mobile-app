@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $mainRoute,
       $moduleSelectionRoute,
       $loginRoute,
+      $initialMetadataDownloadRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -69,6 +70,31 @@ extension $LoginRouteExtension on LoginRoute {
 
   String get location => GoRouteData.$location(
         '/login',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $initialMetadataDownloadRoute => GoRouteData.$route(
+      path: '/metadata',
+      name: 'metadata-download',
+      factory: $InitialMetadataDownloadRouteExtension._fromState,
+    );
+
+extension $InitialMetadataDownloadRouteExtension
+    on InitialMetadataDownloadRoute {
+  static InitialMetadataDownloadRoute _fromState(GoRouterState state) =>
+      InitialMetadataDownloadRoute();
+
+  String get location => GoRouteData.$location(
+        '/metadata',
       );
 
   void go(BuildContext context) => context.go(location);

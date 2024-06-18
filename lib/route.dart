@@ -4,6 +4,7 @@ import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/auth_state/auth_state.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/login.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/module_selection.dart';
 import 'package:flutter/foundation.dart';
@@ -57,6 +58,7 @@ class MainRoute extends GoRouteData {
 
 @TypedGoRoute<ModuleSelectionRoute>(path: '/modules', name: 'modules-list')
 
+
 class ModuleSelectionRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -70,5 +72,14 @@ class LoginRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const Login();
+  }
+}
+
+@TypedGoRoute<InitialMetadataDownloadRoute>(path: '/metadata', name: 'metadata-download')
+
+class InitialMetadataDownloadRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const InitialMetadataDownloadPage();
   }
 }
