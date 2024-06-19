@@ -7,10 +7,12 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.d
 import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/login.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/module_selection.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/tracker_program/tracker_program.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 /// In case you change the routes in this file, run `dart run build_runner build` to re-generate the route.g.dart file.
 
 part 'route.g.dart';
@@ -32,6 +34,10 @@ class MainRoute extends GoRouteData {
     AuthState authState = Provider.of<AuthState>(context, listen: false);
     bool isUserLoggedIn = authState.isLoggedIn;
     if (!isUserLoggedIn || authState.credentials == null) {
+      print('${isUserLoggedIn}');
+
+      print('${authState.credentials}');
+      print('***************************!isUserLoggedIn || authState.credentials == null');
       return '/login';
     }
     D2UserCredential? credentials = authState.credentials;
@@ -44,9 +50,13 @@ class MainRoute extends GoRouteData {
     if (!userState.initialized) {
       userState.init(dbState.db);
       if (!userState.initialized) {
-        return '/login';
+      print('***************************!userState.initialized');
+
+        return '***************************/login';
       }
     }
+      print('/module');
+
     return '/modules';
   }
 
@@ -56,9 +66,12 @@ class MainRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<ModuleSelectionRoute>(path: '/modules', name: 'modules-list')
-
-
+@TypedGoRoute<ModuleSelectionRoute>(
+    path: '/modules',
+    name: 'modules-list',
+    routes: [
+      TypedGoRoute<TrackerProgramHomeRoute>(path: 'tracker-program'),
+    ])
 class ModuleSelectionRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -66,7 +79,10 @@ class ModuleSelectionRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<LoginRoute>(path: '/login', name: 'login')
+@TypedGoRoute<LoginRoute>(
+    path: '/login',
+    name: 'login',
+    routes: [TypedGoRoute<InitialMetadataDownloadRoute>(path: 'metadata')])
 @immutable
 class LoginRoute extends GoRouteData {
   @override
@@ -75,11 +91,16 @@ class LoginRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<InitialMetadataDownloadRoute>(path: '/metadata', name: 'metadata-download')
-
 class InitialMetadataDownloadRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const InitialMetadataDownloadPage();
+  }
+}
+
+class TrackerProgramHomeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const TrackerProgramHome();
   }
 }
