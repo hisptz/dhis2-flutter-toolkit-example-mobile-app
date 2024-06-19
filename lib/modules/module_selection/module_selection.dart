@@ -1,6 +1,12 @@
 import 'package:dhis2_flutter_toolkit/objectbox.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/app_state/module_selection/module_selection.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/app_module_selection_util.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/components/module_selection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ModuleSelection extends StatefulWidget {
@@ -11,24 +17,36 @@ class ModuleSelection extends StatefulWidget {
 }
 
 class _ModuleSelectionState extends State<ModuleSelection> {
+  onOpenAppModule(BuildContext context) {
+    AppModule appModule =
+        Provider.of<AppModuleSelectionState>(context, listen: false)
+            .selectedAppModule;
+    context.replace('/modules${appModule.homeRoutePath ?? ''}');
+  }
+
+  onTapAppModule(
+    BuildContext context, {
+    required AppModule appModule,
+  }) {
+    Provider.of<AppModuleSelectionState>(context, listen: false)
+        .setSelectedAppModule(appModule: appModule);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // return Consumer<AppModuleSelectionState>(
-    //   builder: (context, dataModuleSelectionState, child) {
-        // AppModule selectedAppModule =
-        //     dataModuleSelectionState.selectedAppModule;
+    return Consumer<AppModuleSelectionState>(
+      builder: (context, dataModuleSelectionState, child) {
+        AppModule selectedAppModule =
+            dataModuleSelectionState.selectedAppModule;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 500),
-          // color: selectedAppModule.color,
+          color: selectedAppModule.color,
           child: Scaffold(
-            // backgroundColor: selectedAppModule.color,
+            backgroundColor: selectedAppModule.color,
             appBar: AppBar(
-              // backgroundColor: selectedAppModule.color,
-              // iconTheme: selectedAppModule.id == ''
-              //     ? const IconThemeData(color: CustomColor.appColor)
-              //     : const IconThemeData(color: Colors.white),
+              backgroundColor: selectedAppModule.color,
+      
             ),
-            // drawer: const NavigationDrawerContainer(),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,9 +59,9 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                     child: Text(
                       'Select Module',
                       style: const TextStyle().copyWith(
-                        // color: selectedAppModule.id == ''
-                        //     ? CustomColor.appColor
-                        //     : Colors.white,
+                        color: selectedAppModule.id == ''
+                            ? Theme.of(context).primaryColor
+                            : Colors.white,
                         fontSize: 24.0,
                         fontWeight: FontWeight.w600,
                       ),
@@ -61,20 +79,20 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                         builder: (_, dbState, child) {
                           D2ObjectBox db = dbState.db;
 
-                          // AppModuleSelectionUtil appSelectionUtil =
-                          //     AppModuleSelectionUtil(db);
+                          AppModuleSelectionUtil appSelectionUtil =
+                              AppModuleSelectionUtil(db);
 
-                          // List<AppModule> appModules =
-                          //     appSelectionUtil.getAppModuleByType(
-                          //         type: AppNavigationType.dataType);
+                          List<AppModule> appModules =
+                              appSelectionUtil.getAppModuleByType(
+                                  type: AppNavigationType.dataType);
 
-                          // bool allUnavailable =
-                          //     !appModules.any((module) => module.available);
+                          bool allUnavailable =
+                              !appModules.any((module) => module.available);
 
                           return Column(
                             children: [
                               Visibility(
-                                  visible: true,
+                                  visible: allUnavailable,
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
@@ -84,15 +102,15 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                                     ),
                                   )),
                               Visibility(
-                                  // visible: allUnavailable,
+                                  visible: allUnavailable,
                                   child: Center(
                                     child: InkWell(
                                       onTap: () {
-                                        // onTapAppModule(context,
-                                        //     appModule: appSelectionUtil
-                                        //         .getAppModuleById(
-                                        //             'metadata-download')!);
-                                        // onOpenAppModule(context);
+                                        onTapAppModule(context,
+                                            appModule: appSelectionUtil
+                                                .getAppModuleById(
+                                                    'metadata-download')!);
+                                        onOpenAppModule(context);
                                       },
                                       borderRadius:
                                           BorderRadius.circular(100.0),
@@ -120,7 +138,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                                               child: const Icon(
                                                 Icons.arrow_forward,
                                                 // color: CustomColor
-                                                    // .appBackgroundColor,
+                                                // .appBackgroundColor,
                                               ),
                                             ),
                                             Text(
@@ -138,23 +156,23 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                                     ),
                                   )),
                               Visibility(
-                                  // visible: allUnavailable,
+                                  visible: allUnavailable,
                                   child: const Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 16.0))),
-                              // ...appModules.map(
-                              //   (AppModule appModule) =>
-                              //       DataModuleSelectionContainer(
-                              //     disabled: !appModule.available,
-                              //     appModule: appModule,
-                              //     isOpen: appModule.id == selectedAppModule.id,
-                              //     onOpen: () => onOpenAppModule(context),
-                              //     onTap: () => onTapAppModule(
-                              //       context,
-                              //       appModule: appModule,
-                              //     ),
-                              //   ),
-                              // ),
+                              ...appModules.map(
+                                (AppModule appModule) =>
+                                    ModuleSelectionContainer(
+                                  disabled: !appModule.available,
+                                  appModule: appModule,
+                                  isOpen: appModule.id == selectedAppModule.id,
+                                  onOpen: () => onOpenAppModule(context),
+                                  onTap: () => onTapAppModule(
+                                    context,
+                                    appModule: appModule,
+                                  ),
+                                ),
+                              ),
                             ],
                           );
                         },
@@ -166,7 +184,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
             ),
           ),
         );
-    //   },
-    // );
+      },
+    );
   }
 }
