@@ -1,5 +1,4 @@
 class AppConfig {
-  // static String baseURL = 'dev.southsudanhis.org';
  static List<String> programs = [
     'ImU7LBc4QwD',
     'WqbHPWOvfSA',
