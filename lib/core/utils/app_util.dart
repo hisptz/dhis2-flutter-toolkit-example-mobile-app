@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppUtil {
- 
   static Future<void> initializeServices(
       BuildContext context, D2UserCredential? credentials) async {
     if (credentials != null) {
@@ -25,20 +24,28 @@ class AppUtil {
     userState.init(dbState.db);
   }
 
-   static List<String> getProgramsToSync(D2User? user) {
+  static List<String> getProgramsToSync(D2User? user) {
     return user?.programs
             .where((element) => AppConfig.programs.contains(element))
             .toList() ??
         [];
   }
 
+  static String camelCaseToSnakeCase(String input) {
+    if (input.isEmpty) return input; // Return empty string if input is empty
 
-   static List<String> getDataSetsToSync(D2User? user) {
+    String snakeCase = input.replaceAllMapped(
+      RegExp(r'([a-z])([A-Z])'),
+      (match) => '${match[1]}_${match[2]}',
+    );
+
+    return snakeCase.toUpperCase();
+  }
+
+  static List<String> getDataSetsToSync(D2User? user) {
     return user?.dataSets
             .where((element) => AppConfig.dataSets.contains(element))
             .toList() ??
         [];
   }
-
-
 }
