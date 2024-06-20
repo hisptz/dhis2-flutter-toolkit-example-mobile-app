@@ -69,7 +69,7 @@ class _InitialMetadataDownloadPageState
     await d2SystemInfoRepository.setupDownload(client).download();
     // Downloading the reporting hierarchy
     await initializeOrgUnitDownload(client: client, db: db);
-    // Downloading metadata for the BHI modules
+    // Downloading metadata for the modules
     await initializeProgramDownload(db: db, client: client);
     d2reservedValueRepository.setupDownload(client: client);
     // await d2reservedValueRepository.downloadAllReservedValues(
