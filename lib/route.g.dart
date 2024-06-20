@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $mainRoute,
       $moduleSelectionRoute,
       $loginRoute,
+      $splashRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -43,6 +44,22 @@ RouteBase get $moduleSelectionRoute => GoRouteData.$route(
           path: 'tracker-program',
           factory: $TrackerProgramHomeRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'event-program',
+          factory: $EventProgramHomeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'about-information',
+          factory: $AboutInformationHomeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'data-synchronization',
+          factory: $DataSynchronizationHomeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'metadata-download',
+          factory: $MetadataDownloadHomeRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -70,6 +87,79 @@ extension $TrackerProgramHomeRouteExtension on TrackerProgramHomeRoute {
 
   String get location => GoRouteData.$location(
         '/modules/tracker-program',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventProgramHomeRouteExtension on EventProgramHomeRoute {
+  static EventProgramHomeRoute _fromState(GoRouterState state) =>
+      EventProgramHomeRoute();
+
+  String get location => GoRouteData.$location(
+        '/modules/event-program',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $AboutInformationHomeRouteExtension on AboutInformationHomeRoute {
+  static AboutInformationHomeRoute _fromState(GoRouterState state) =>
+      AboutInformationHomeRoute();
+
+  String get location => GoRouteData.$location(
+        '/modules/about-information',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DataSynchronizationHomeRouteExtension
+    on DataSynchronizationHomeRoute {
+  static DataSynchronizationHomeRoute _fromState(GoRouterState state) =>
+      DataSynchronizationHomeRoute();
+
+  String get location => GoRouteData.$location(
+        '/modules/data-synchronization',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $MetadataDownloadHomeRouteExtension on MetadataDownloadHomeRoute {
+  static MetadataDownloadHomeRoute _fromState(GoRouterState state) =>
+      MetadataDownloadHomeRoute();
+
+  String get location => GoRouteData.$location(
+        '/modules/metadata-download',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -118,6 +208,29 @@ extension $InitialMetadataDownloadRouteExtension
 
   String get location => GoRouteData.$location(
         '/login/metadata',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $splashRoute => GoRouteData.$route(
+      path: '/splash',
+      name: 'splash',
+      factory: $SplashRouteExtension._fromState,
+    );
+
+extension $SplashRouteExtension on SplashRoute {
+  static SplashRoute _fromState(GoRouterState state) => SplashRoute();
+
+  String get location => GoRouteData.$location(
+        '/splash',
       );
 
   void go(BuildContext context) => context.go(location);

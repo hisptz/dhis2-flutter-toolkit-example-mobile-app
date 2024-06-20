@@ -4,10 +4,15 @@ import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/auth_state/auth_state.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/about_information/about_information.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/data_synchronization/data_synchronization.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/login.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/event_program/event_program_home.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/metadata_download/metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/module_selection.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/tracker_program/tracker_program.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/splash/splash.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/tracker_program/tracker_program_home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -37,8 +42,9 @@ class MainRoute extends GoRouteData {
       print('${isUserLoggedIn}');
 
       print('${authState.credentials}');
-      print('***************************!isUserLoggedIn || authState.credentials == null');
-      return '/login';
+      print(
+          '***************************!isUserLoggedIn || authState.credentials == null');
+      return '/splash';
     }
     D2UserCredential? credentials = authState.credentials;
 
@@ -50,12 +56,12 @@ class MainRoute extends GoRouteData {
     if (!userState.initialized) {
       userState.init(dbState.db);
       if (!userState.initialized) {
-      print('***************************!userState.initialized');
+        print('***************************!userState.initialized');
 
-        return '***************************/login';
+        return '/splash';
       }
     }
-      print('/module');
+    print('/module');
 
     return '/modules';
   }
@@ -71,6 +77,10 @@ class MainRoute extends GoRouteData {
     name: 'modules-list',
     routes: [
       TypedGoRoute<TrackerProgramHomeRoute>(path: 'tracker-program'),
+      TypedGoRoute<EventProgramHomeRoute>(path: 'event-program'),
+      TypedGoRoute<AboutInformationHomeRoute>(path: 'about-information'),
+      TypedGoRoute<DataSynchronizationHomeRoute>(path: 'data-synchronization'),
+      TypedGoRoute<MetadataDownloadHomeRoute>(path: 'metadata-download'),
     ])
 class ModuleSelectionRoute extends GoRouteData {
   @override
@@ -101,6 +111,43 @@ class InitialMetadataDownloadRoute extends GoRouteData {
 class TrackerProgramHomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const TrackerProgramHome();
+    return TrackerProgramHome();
+  }
+}
+
+class EventProgramHomeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const EventProgramHome();
+  }
+}
+
+class DataSynchronizationHomeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const DataSynchronizationHome();
+  }
+}
+
+class MetadataDownloadHomeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const MetadataDownloadHome();
+  }
+}
+
+class AboutInformationHomeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AboutInformationHome();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(path: '/splash', name: 'splash')
+@immutable
+class SplashRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const Splash();
   }
 }
