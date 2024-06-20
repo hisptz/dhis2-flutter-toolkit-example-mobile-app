@@ -45,7 +45,6 @@ class _ModuleSelectionState extends State<ModuleSelection> {
             backgroundColor: selectedAppModule.color,
             appBar: AppBar(
               backgroundColor: selectedAppModule.color,
-      
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,

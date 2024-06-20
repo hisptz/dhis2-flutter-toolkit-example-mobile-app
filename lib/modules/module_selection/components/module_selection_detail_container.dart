@@ -1,7 +1,5 @@
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ModuleSelectionDetailContainer extends StatelessWidget {
   const ModuleSelectionDetailContainer(
@@ -38,7 +36,11 @@ class ModuleSelectionDetailContainer extends StatelessWidget {
                 vertical: 5.0,
               ),
               padding: const EdgeInsets.all(10.0),
-              child: Icon(Icons.add_home_outlined, color: appModule.color,),
+              child: Icon(
+                Icons.add_home_outlined,
+                size: 40.0,
+                color: appModule.color,
+              ),
               // child: SvgPicture.asset(
               //   appModule.svgIcon ?? '',
               //   height: iconContainerSize * 0.7,
