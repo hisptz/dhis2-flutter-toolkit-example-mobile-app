@@ -1,5 +1,4 @@
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/core/constants/config.dart';
 import 'package:flutter/material.dart';
 
 class AuthState extends ChangeNotifier {
@@ -26,7 +25,6 @@ class AuthState extends ChangeNotifier {
 
   Future<D2UserCredential?> login(
       {required String username, required String password, required baseURL}) async {
-    // String baseURL = AppConfig.baseURL;
     _credential = await D2AuthService()
         .login(baseURL: baseURL, username: username, password: password);
     notifyListeners();
