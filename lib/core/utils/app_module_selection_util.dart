@@ -1,7 +1,7 @@
-
 import 'package:collection/collection.dart';
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +26,10 @@ class AppModuleSelectionUtil {
     return [
       AppModule(
         title: 'Tracker Program',
-        description:
-            'Gathers tracker data.',
+        description: 'Gathers tracker data.',
         countLabel: 'Number of events',
         type: AppNavigationType.dataType,
-        color:  Colors.blue,
+        color: CustomColor.primaryColor,
         svgIcon: 'assets/icons/family-folder-icon.svg',
         homeRoutePath: '/tracker-program',
         isSearchApplicable: true,
@@ -52,33 +51,45 @@ class AppModuleSelectionUtil {
         // ],
         db: db,
       ),
-     
+      AppModule(
+        title: 'Event Program',
+        description: 'Gathers tracker event data.',
+        countLabel: 'Number of events',
+        type: AppNavigationType.dataType,
+        color: Colors.amber,
+        svgIcon: 'assets/icons/family-folder-icon.svg',
+        homeRoutePath: '/event-program',
+        isSearchApplicable: true,
+        programs: ['qjFCUqsA0vZ'],
+        dataType: ModuleDataType.event,
+        db: db,
+      ),
       AppModule(
         id: 'metadata-download',
         title: 'Metadata Download',
         type: AppNavigationType.actionType,
-        color:  Colors.blue,
+        color: CustomColor.primaryColor,
         svgIcon: 'assets/icons/metadata-download-icon.svg',
         homeRoutePath: '/metadata-download',
       ),
       AppModule(
         title: 'Data Synchronization',
         type: AppNavigationType.actionType,
-        color:  Colors.blue,
+        color: CustomColor.primaryColor,
         svgIcon: 'assets/icons/data-synchronizatiom-icon.svg',
         homeRoutePath: '/data-synchronization',
       ),
       AppModule(
         title: 'Logout',
         type: AppNavigationType.actionType,
-        color:  Colors.blue,
+        color: CustomColor.primaryColor,
         svgIcon: 'assets/icons/logout-icon.svg',
         isLogOutModule: true,
       ),
       AppModule(
         title: 'About Application',
         type: AppNavigationType.infoType,
-        color:  Colors.blue,
+        color: CustomColor.primaryColor,
         svgIcon: 'assets/icons/app-info-icon.svg',
         homeRoutePath: '/about-information',
       ),
