@@ -42,8 +42,6 @@ class MainRoute extends GoRouteData {
       print('${isUserLoggedIn}');
 
       print('${authState.credentials}');
-      print(
-          '***************************!isUserLoggedIn || authState.credentials == null');
       return '/splash';
     }
     D2UserCredential? credentials = authState.credentials;
@@ -56,7 +54,6 @@ class MainRoute extends GoRouteData {
     if (!userState.initialized) {
       userState.init(dbState.db);
       if (!userState.initialized) {
-        print('***************************!userState.initialized');
 
         return '/splash';
       }
