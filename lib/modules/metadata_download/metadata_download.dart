@@ -258,8 +258,8 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
                     child: SynchronizationProgressBar(
                       processPercentage: downloadController,
                       isProcessCompleted: true,
-                      backgroundColor: const Color(0xFF4B9F64),
-                      textColor: const Color(0xFF4B9F64),
+                      backgroundColor: CustomColor.primaryColor,
+                      textColor: CustomColor.primaryColor,
                       selectedMetadata: selectedMetadata,
                       syncedMetadata: syncedMetadata,
                       label: 'Downloading',
