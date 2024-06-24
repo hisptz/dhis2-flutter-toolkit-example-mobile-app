@@ -5,6 +5,7 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/auth_state/auth_state.d
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/circular_process_loader.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/app_util.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,13 +28,11 @@ class _SplashState extends State<Splash> {
   void checkUser() {
     bool isUserLoggedIn =
         Provider.of<AuthState>(context, listen: false).isLoggedIn;
-    print("userloged $isUserLoggedIn");
     if (!isUserLoggedIn) {
       LoginRoute().go(context);
       return;
     }
     D2User? user = Provider.of<UserState>(context, listen: false).user;
-    print("user $user");
     if (user != null) {
       ModuleSelectionRoute().go(context);
       return;
@@ -45,10 +44,17 @@ class _SplashState extends State<Splash> {
     super.dispose();
   }
 
-  void setLandingPage() {
-    Timer(const Duration(milliseconds: 1000), () => checkUser());
+   void setLandingPage() {
+    Future.delayed(const Duration(seconds: 2), () {
+      Provider.of<AuthState>(context, listen: false)
+          .init()
+          .then((D2UserCredential? credentials) {
+        AppUtil.initializeServices(context, credentials).then((_) {
+          checkUser();
+        });
+      });
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
