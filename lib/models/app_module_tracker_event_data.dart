@@ -1,10 +1,11 @@
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit/objectbox.g.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_paginated_data_mixin.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:flutter/foundation.dart';
 
 
-class AppModuleEventData extends BaseAppModuleData<D2EventRepository, D2Event>
+class AppModuleEventData extends BaseAppModuleData<D2EventRepository, D2Event>  with AppModulePaginatedData
      {
   @override
   D2EventRepository repository;
@@ -68,7 +69,7 @@ class AppModuleEventData extends BaseAppModuleData<D2EventRepository, D2Event>
   @override
   void init() {
     updateCount();
-    // initializeController();
+    initializeController();
   }
 
   @override

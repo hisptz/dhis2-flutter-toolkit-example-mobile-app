@@ -1,10 +1,10 @@
-import 'package:collection/collection.dart';
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit/objectbox.g.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_paginated_data_mixin.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:flutter/foundation.dart';
 
-class AppModuleTrackerData extends BaseAppModuleData<D2EnrollmentRepository, D2Enrollment>
+class AppModuleTrackerData extends BaseAppModuleData<D2EnrollmentRepository, D2Enrollment>  with AppModulePaginatedData
     {
   @override
   D2EnrollmentRepository repository;
@@ -57,6 +57,8 @@ class AppModuleTrackerData extends BaseAppModuleData<D2EnrollmentRepository, D2E
   @override
   void init() {
     updateCount();
+    initializeController();
+
   }
 
   Condition<D2Enrollment> getSearchAttributeConditions(String keyword) {

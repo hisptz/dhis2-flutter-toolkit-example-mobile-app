@@ -1,6 +1,7 @@
 
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/app_module_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_aggregate_data.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_tracker_data.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_tracker_event_data.dart';
@@ -21,7 +22,7 @@ class AppModule {
   String? homeRoutePath;
   List<String>? programs;
   List<String>? dataSets;
-  // BaseAppModuleHelper? helper;
+  BaseAppModuleHelper? helper;
   ModuleDataType? dataType;
   // List<DataFilterQueryConfig> supportedFilters;
   // List<DataFilterQueryConfig> supportedSearch;
@@ -38,7 +39,7 @@ class AppModule {
     this.isSearchApplicable = false,
     this.isLogOutModule = false,
     this.homeRoutePath = '/',
-    // this.helper,
+    this.helper,
     ModuleDataType? dataType,
     D2ObjectBox? db,
     this.data,
@@ -73,7 +74,7 @@ class AppModule {
       }
 
      
-      // helper?.setModule(this);
+      helper?.setModule(this);
     }
   }
 
