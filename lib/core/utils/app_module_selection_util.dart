@@ -56,7 +56,7 @@ class AppModuleSelectionUtil {
         description: 'Gathers tracker event data.',
         countLabel: 'Number of events',
         type: AppNavigationType.dataType,
-        color: Colors.amber,
+        color: Colors.green,
         svgIcon: 'assets/icons/family-folder-icon.svg',
         homeRoutePath: '/event-program',
         isSearchApplicable: true,
