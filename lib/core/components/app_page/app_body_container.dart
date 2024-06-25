@@ -63,7 +63,7 @@ class AppBodyContainer extends StatelessWidget {
                                       'There are no search criteria configured',
                                 )
                             : Container(),
-                  ) // proper container
+                  ) 
                   ),
             ),
           ),
@@ -91,7 +91,7 @@ class AppBodyContainer extends StatelessWidget {
                                   TextSpan(
                                     text: '${selectedAppModule.countLabel}: ',
                                     style: const TextStyle().copyWith(
-                                      // color: CustomColor.appColor,
+                                      color: const Color.fromARGB(255, 43, 49, 53),
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.0,
                                     ),
@@ -100,7 +100,7 @@ class AppBodyContainer extends StatelessWidget {
                                     text: dataState.activeCount?.toString() ??
                                         'N/A',
                                     style: const TextStyle().copyWith(
-                                      // color: CustomColor.appColor,
+                                      color:const Color.fromARGB(255, 43, 49, 53),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14.0,
                                     ),
