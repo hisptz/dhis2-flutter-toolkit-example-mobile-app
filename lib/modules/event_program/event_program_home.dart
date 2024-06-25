@@ -2,6 +2,7 @@ import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/app_module_data/app_module_data.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/module_selection/module_selection.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/app_page/app_page_container.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/components/infinite_list.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/event_program/components/event_form_container.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class EventProgramHome extends StatelessWidget {
               horizontal: 10.0,
               vertical: 10.0,
             ),
-            child: Container(),
+            child: InfiniteList(),
           ),
         );
       },
