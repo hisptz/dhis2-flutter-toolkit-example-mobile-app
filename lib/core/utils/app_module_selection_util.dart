@@ -75,6 +75,7 @@ class AppModuleSelectionUtil {
     for (D2Program program in programs) {
       modules.add(AppModule(
         title: program.name,
+        countLabel: 'Number of Events',
         description: 'Program Description',
         type: AppNavigationType.dataType,
         programs: [program.uid],

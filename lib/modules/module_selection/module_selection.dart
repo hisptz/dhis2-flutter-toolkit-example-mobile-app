@@ -46,6 +46,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
       List<AppModule> appModules = programs.map((program) {
         return AppModule(
           title: program.name  ,
+          countLabel: 'Number of Events',
           description: program.programType == 'WITH_REGISTRATION' ? 'Tracker Program' : 'Event Program',
           type: AppNavigationType.dataType,
           programs: [program.uid],
