@@ -102,9 +102,7 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
 
     D2DataSetRepository d2dataSetRepository = D2DataSetRepository(db);
 
-    List<String> dataSetsToSync = user.dataSets
-        .where((element) => AppConfig.dataSets.contains(element))
-        .toList();
+    List<String> dataSetsToSync = user.dataSets.toList();
     await d2dataSetRepository
         .setupDownload(client, dataSetIds: dataSetsToSync)
         .download();

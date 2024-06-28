@@ -42,9 +42,9 @@ class AppUtil {
 
   static List<String> getDataSetsToSync(D2User? user) {
      print('**********app_Util_getDataset${user?.dataSets}');
-    return user?.dataSets.toList()
-            .where((element) => AppConfig.dataSets.contains(element))
-            .toList() ??
-        [];
+    return user?.dataSets.toList() ?? [];
+        //     .where((element) => AppConfig.dataSets.contains(element))
+        //     .toList() ??
+        // [];
   }
 }
