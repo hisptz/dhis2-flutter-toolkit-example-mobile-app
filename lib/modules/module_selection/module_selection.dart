@@ -49,14 +49,16 @@ class _ModuleSelectionState extends State<ModuleSelection> {
         List<AppModule> appModules = programs.map((program) {
           return AppModule(
             title: program.name,
-            description: 'Program Description',
+            description: program.programType == 'WITH_REGISTRATION'
+                ? 'Tracker Program'
+                : 'Event Program',
             type: AppNavigationType.dataType,
             programs: [program.uid],
             dataType: program.programType == 'WITH_REGISTRATION'
                 ? ModuleDataType.tracker
                 : ModuleDataType.event,
             color: program.dartColor ?? CustomColor.primaryColor,
-            svgIcon: 'assets/icons/program-icon.svg',
+            icon: Icons.add_home_outlined,
             homeRoutePath: '/program/${program.uid}',
             db: db,
           );
@@ -78,11 +80,13 @@ class _ModuleSelectionState extends State<ModuleSelection> {
         List<AppModule> appModules = datasets.map((dataset) {
           return AppModule(
             title: dataset.name,
+            countLabel: 'Number of Events',
             description: 'Dataset Description',
             type: AppNavigationType.dataType,
             programs: [dataset.uid],
             dataType: ModuleDataType.aggregate,
             color: CustomColor.primaryColor,
+             icon: Icons.add_home_outlined,
             homeRoutePath: '/dataset/${dataset.uid}',
             db: db,
           );
@@ -192,7 +196,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 16.0),
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
                     child: PagedListView<int, AppModule>(
                       pagingController: _pagingController,
                       builderDelegate: PagedChildBuilderDelegate<AppModule>(
