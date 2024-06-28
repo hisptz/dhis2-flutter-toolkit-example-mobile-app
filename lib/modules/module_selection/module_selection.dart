@@ -22,9 +22,10 @@ class ModuleSelection extends StatefulWidget {
 }
 
 class _ModuleSelectionState extends State<ModuleSelection> {
- final PagingController<int, AppModule> _pagingController = PagingController(firstPageKey: 0);
+  final PagingController<int, AppModule> _pagingController =
+      PagingController(firstPageKey: 0);
   static const int pageSize = 20;
-   bool isProgramSelected = true;
+  bool isProgramSelected = true;
 
   @override
   void initState() {
@@ -38,31 +39,62 @@ class _ModuleSelectionState extends State<ModuleSelection> {
     try {
       D2ObjectBox db = Provider.of<DBState>(context, listen: false).db;
       AppModuleSelectionUtil appSelectionUtil = AppModuleSelectionUtil(db);
-      List<D2Program> programs = await appSelectionUtil.getPrograms(
-        offset: pageKey * pageSize,
-        limit: pageSize,
-      );
 
-      List<AppModule> appModules = programs.map((program) {
-        return AppModule(
-          title: program.name  ,
-          countLabel: 'Number of Events',
-          description: program.programType == 'WITH_REGISTRATION' ? 'Tracker Program' : 'Event Program',
-          type: AppNavigationType.dataType,
-          programs: [program.uid],
-          dataType: program.programType == 'WITH_REGISTRATION' ? ModuleDataType.tracker : ModuleDataType.event,
-          color: program.dartColor ?? CustomColor.primaryColor,
-          homeRoutePath: '/program/${program.uid}',
-          db: db,
+      if (isProgramSelected) {
+        List<D2Program> programs = await appSelectionUtil.getPrograms(
+          offset: pageKey * pageSize,
+          limit: pageSize,
         );
-      }).toList();
 
-      final isLastPage = appModules.length < pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(appModules);
+        List<AppModule> appModules = programs.map((program) {
+          return AppModule(
+            title: program.name,
+            description: 'Program Description',
+            type: AppNavigationType.dataType,
+            programs: [program.uid],
+            dataType: program.programType == 'WITH_REGISTRATION'
+                ? ModuleDataType.tracker
+                : ModuleDataType.event,
+            color: program.dartColor ?? CustomColor.primaryColor,
+            svgIcon: 'assets/icons/program-icon.svg',
+            homeRoutePath: '/program/${program.uid}',
+            db: db,
+          );
+        }).toList();
+
+        final isLastPage = appModules.length < pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(appModules);
+        } else {
+          final nextPageKey = pageKey + 1;
+          _pagingController.appendPage(appModules, nextPageKey);
+        }
       } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(appModules, nextPageKey);
+        List<D2DataSet> datasets = await appSelectionUtil.getDatasets(
+          offset: pageKey * pageSize,
+          limit: pageSize,
+        );
+
+        List<AppModule> appModules = datasets.map((dataset) {
+          return AppModule(
+            title: dataset.name,
+            description: 'Dataset Description',
+            type: AppNavigationType.dataType,
+            programs: [dataset.uid],
+            dataType: ModuleDataType.aggregate,
+            color: CustomColor.primaryColor,
+            homeRoutePath: '/dataset/${dataset.uid}',
+            db: db,
+          );
+        }).toList();
+
+        final isLastPage = appModules.length < pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(appModules);
+        } else {
+          final nextPageKey = pageKey + 1;
+          _pagingController.appendPage(appModules, nextPageKey);
+        }
       }
     } catch (error) {
       _pagingController.error = error;
@@ -90,7 +122,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
         .setSelectedAppModule(appModule: appModule);
   }
 
-    void _onSegmentSelected(Set<Type> newSelection) {
+  void _onSegmentSelected(Set<Type> newSelection) {
     setState(() {
       isProgramSelected = newSelection.contains(Type.program);
       _pagingController.refresh();
@@ -156,23 +188,27 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                     ),
                   ],
                   selected: {isProgramSelected ? Type.program : Type.dataset},
-                  onSelectionChanged: _onSegmentSelected,),
-                 Expanded(
-                  child: PagedListView<int, AppModule>(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<AppModule>(
-                      itemBuilder: (context, appModule, index) {
-                        return ModuleSelectionContainer(
-                          disabled: !appModule.available,
-                          appModule: appModule,
-                          isOpen: appModule.id == selectedAppModule.id,
-                          onOpen: () => onOpenAppModule(context),
-                          onTap: () => onTapAppModule(
-                            context,
+                  onSelectionChanged: _onSegmentSelected,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 16.0),
+                    child: PagedListView<int, AppModule>(
+                      pagingController: _pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<AppModule>(
+                        itemBuilder: (context, appModule, index) {
+                          return ModuleSelectionContainer(
+                            disabled: !appModule.available,
                             appModule: appModule,
-                          ),
-                        );
-                      },
+                            isOpen: appModule.id == selectedAppModule.id,
+                            onOpen: () => onOpenAppModule(context),
+                            onTap: () => onTapAppModule(
+                              context,
+                              appModule: appModule,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -297,4 +333,5 @@ class _ModuleSelectionState extends State<ModuleSelection> {
     );
   }
 }
+
 enum Type { program, dataset }
