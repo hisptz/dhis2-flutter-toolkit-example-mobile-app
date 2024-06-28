@@ -52,7 +52,6 @@ class _ModuleSelectionState extends State<ModuleSelection> {
           programs: [program.uid],
           dataType: program.programType == 'WITH_REGISTRATION' ? ModuleDataType.tracker : ModuleDataType.event,
           color: program.dartColor ?? CustomColor.primaryColor,
-          svgIcon: 'assets/icons/program-icon.svg',
           homeRoutePath: '/program/${program.uid}',
           db: db,
         );

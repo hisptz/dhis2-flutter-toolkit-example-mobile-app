@@ -6,6 +6,7 @@ import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_typ
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
+import 'package:flutter/material.dart';
 
 class AppModuleSelectionUtil {
   D2ObjectBox db;
@@ -46,28 +47,24 @@ class AppModuleSelectionUtil {
         title: 'Metadata Download',
         type: AppNavigationType.actionType,
         color: CustomColor.primaryColor,
-        svgIcon: 'assets/icons/metadata-download-icon.svg',
         homeRoutePath: '/metadata-download',
       ),
       AppModule(
         title: 'Data Synchronization',
         type: AppNavigationType.actionType,
         color: CustomColor.primaryColor,
-        svgIcon: 'assets/icons/data-synchronizatiom-icon.svg',
         homeRoutePath: '/data-synchronization',
       ),
       AppModule(
         title: 'Logout',
         type: AppNavigationType.actionType,
         color: CustomColor.primaryColor,
-        svgIcon: 'assets/icons/logout-icon.svg',
         isLogOutModule: true,
       ),
       AppModule(
         title: 'About Application',
         type: AppNavigationType.infoType,
         color: CustomColor.primaryColor,
-        svgIcon: 'assets/icons/app-info-icon.svg',
         homeRoutePath: '/about-information',
       ),
     ];
@@ -75,6 +72,7 @@ class AppModuleSelectionUtil {
     for (D2Program program in programs) {
       modules.add(AppModule(
         title: program.name,
+        icon: Icons.add_home_outlined,
         countLabel: 'Number of Events',
         description: 'Program Description',
         type: AppNavigationType.dataType,
@@ -83,7 +81,6 @@ class AppModuleSelectionUtil {
             ? ModuleDataType.tracker
             : ModuleDataType.event,
         color: program.dartColor ?? CustomColor.primaryColor,
-        svgIcon: 'assets/icons/program-icon.svg',
         homeRoutePath: '/program/${program.uid}',
         db: db,
       ));

@@ -41,12 +41,6 @@ class ModuleSelectionDetailContainer extends StatelessWidget {
                 size: 40.0,
                 color: appModule.color,
               ),
-              // child: SvgPicture.asset(
-              //   appModule.svgIcon ?? '',
-              //   height: iconContainerSize * 0.7,
-              //   width: iconContainerSize * 0.7,
-              //   fit: BoxFit.scaleDown,
-              // ),
             ),
             Expanded(
               child: Container(

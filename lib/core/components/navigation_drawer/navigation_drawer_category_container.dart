@@ -94,11 +94,10 @@ class NavigationDrawerCategoryContainer extends StatelessWidget {
                                         vertical: 5.0,
                                       ),
                                       padding: const EdgeInsets.all(5.0),
-                                      child: SvgPicture.asset(  
-                                        appModule.svgIcon ?? '',
-                                        height: iconContainerSize * 0.7,
-                                        width: iconContainerSize * 0.7,
-                                        fit: BoxFit.scaleDown,
+                                      child: Icon(  
+                                        appModule.icon ?? Icons.assessment_rounded,
+                                        size: iconContainerSize * 0.7,
+                                        color: appModule.color,
                                       ),
                                     ),
                                     Expanded(

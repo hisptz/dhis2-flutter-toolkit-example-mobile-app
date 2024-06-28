@@ -15,6 +15,7 @@ class AppModule {
   String? description;
   String? countLabel;
   String? type;
+  IconData? icon;
   String? svgIcon;
   Color? color;
   bool? isSearchApplicable;
@@ -35,6 +36,7 @@ class AppModule {
     this.countLabel = '',
     this.type = '',
     this.color,
+    this.icon,
     this.svgIcon,
     this.isSearchApplicable = false,
     this.isLogOutModule = false,
