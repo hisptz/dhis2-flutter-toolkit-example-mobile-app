@@ -90,12 +90,13 @@ class _InitialMetadataDownloadPageState
     if (user == null) {
       throw 'Error getting user. Please refresh the application';
     }
-    List<String> dataSetsToSync = AppUtil.getDataSetsToSync(user);
-    await d2dataSetRepository
-        .setupDownload(client, dataSetIds: dataSetsToSync)
-        .download();
+   
     List<String> programsToSync = AppUtil.getProgramsToSync(user);
     await d2ProgramRepository.setupDownload(client, programsToSync).download();
+    //  List<String> dataSetsToSync = AppUtil.getDataSetsToSync(user);
+    // await d2dataSetRepository
+    //     .setupDownload(client, dataSetIds: dataSetsToSync)
+    //     .download();
   }
 
   @override

@@ -1,15 +1,6 @@
 class AppConfig {
- static List<String> programs = [
-    'ImU7LBc4QwD',
-    'WqbHPWOvfSA',
-    'UO48ScysJH0',
-    'qjFCUqsA0vZ',
-    'xkul4ZM4MNq',
-    'regR78MaciI',
-    'xkul4ZM4MNq',
-    'alZUHLwga4u'
-  ];
-  static List<String> dataSets = ['V4LefQF5lV6'];
+
+  static List<String> dataSets = ['lyLU2wR22tC'];
 
   static int paging = 100;
 

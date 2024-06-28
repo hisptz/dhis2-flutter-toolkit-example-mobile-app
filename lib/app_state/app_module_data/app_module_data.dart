@@ -1,4 +1,5 @@
 
+import 'package:dhis2_flutter_toolkit_demo_app/models/app_module_paginated_data_mixin.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -47,11 +48,11 @@ class SelectedAppModuleDataState extends ChangeNotifier {
 
   @override
   void dispose() {
-    // if (dataConfig != null) {
-    //   if (dataConfig is AppModulePaginatedData) {
-    //     (dataConfig as AppModulePaginatedData).dispose();
-    //   }
-    // }
+    if (dataConfig != null) {
+      if (dataConfig is AppModulePaginatedData) {
+        (dataConfig as AppModulePaginatedData).dispose();
+      }
+    }
 
     super.dispose();
   }

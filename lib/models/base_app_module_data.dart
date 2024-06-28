@@ -1,3 +1,4 @@
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/app_module_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 
 enum ModuleDataType { tracker, event, aggregate, stock }
@@ -35,9 +36,9 @@ abstract class BaseAppModuleData<RepoType, DataType> {
 
   bool get available;
 
-  // BaseAppModuleHelper? get helper {
-  //   return module.helper;
-  // }
+  BaseAppModuleHelper? get helper {
+    return module.helper;
+  }
 
   void refresh() {
     updateCount();

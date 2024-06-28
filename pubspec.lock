@@ -238,7 +238,7 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: eaa22ba9c0de3e9bf61225f06a36ecf62c1ad9d7
+      resolved-ref: c148b487e5eeaf2b33b98561bd0dce492d0632fa
       url: "https://github.com/hisptz/dhis2_flutter_toolkit.git"
     source: git
     version: "0.0.51"

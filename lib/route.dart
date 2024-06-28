@@ -8,11 +8,10 @@ import 'package:dhis2_flutter_toolkit_demo_app/modules/about_information/about_i
 import 'package:dhis2_flutter_toolkit_demo_app/modules/data_synchronization/data_synchronization.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/login.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/event_program/event_program_home.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/metadata_download/metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/module_selection.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/program/program_home.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/splash/splash.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/tracker_program/tracker_program_home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -73,8 +72,7 @@ class MainRoute extends GoRouteData {
     path: '/modules',
     name: 'modules-list',
     routes: [
-      TypedGoRoute<TrackerProgramHomeRoute>(path: 'tracker-program'),
-      TypedGoRoute<EventProgramHomeRoute>(path: 'event-program'),
+      TypedGoRoute<ProgramHomeRoute>(path: 'program/:uid'),
       TypedGoRoute<AboutInformationHomeRoute>(path: 'about-information'),
       TypedGoRoute<DataSynchronizationHomeRoute>(path: 'data-synchronization'),
       TypedGoRoute<MetadataDownloadHomeRoute>(path: 'metadata-download'),
@@ -105,19 +103,21 @@ class InitialMetadataDownloadRoute extends GoRouteData {
   }
 }
 
-class TrackerProgramHomeRoute extends GoRouteData {
+
+class ProgramHomeRoute extends GoRouteData {
+  final String uid;
+
+  ProgramHomeRoute(
+      {required this.uid});
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return TrackerProgramHome();
+    return ProgramHome(
+      id: uid,
+    );
   }
 }
 
-class EventProgramHomeRoute extends GoRouteData {
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const EventProgramHome();
-  }
-}
 
 class DataSynchronizationHomeRoute extends GoRouteData {
   @override

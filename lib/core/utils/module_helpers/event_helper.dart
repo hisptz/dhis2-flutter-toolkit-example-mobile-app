@@ -5,7 +5,7 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/app_module_data/app_mod
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/list_card_button.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/config.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/app_module_helper.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/event_program/components/event_form_container.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/program/components/event_form_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

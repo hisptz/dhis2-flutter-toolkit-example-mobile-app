@@ -4,22 +4,25 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/module_selection/module
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/app_page/app_page_container.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/infinite_list.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/modules/event_program/components/event_form_container.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/program/components/tracker_form_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EventProgramHome extends StatelessWidget {
-  const EventProgramHome({super.key});
+class ProgramHome extends StatelessWidget {
+  const ProgramHome({super.key, this.id});
 
-  void onAddOrEditSession(BuildContext context,
-      {required AppModule selectedAppModule}) async {
+  final String? id;
+  void onAddOrEditHousehold(BuildContext context,
+      {required AppModule selectedAppModule,
+      }) async {
     await D2AppModalUtil.showActionSheetModal(
       context,
       initialHeightRatio: 0.69,
-      title: selectedAppModule.title!.toUpperCase(),
+      title: 'FORM',
       titleColor: selectedAppModule.color!,
-      actionSheetContainer: EventFormContainer(
+      actionSheetContainer: TrackerFormContainer(
         selectedAppModule: selectedAppModule,
+        program: selectedAppModule.data?.repository.program,
       ),
     );
     Provider.of<SelectedAppModuleDataState>(context, listen: false).refresh();
@@ -35,24 +38,20 @@ class EventProgramHome extends StatelessWidget {
           pageTitle: selectedAppModule.title ?? '',
           onAppBarAddOrEdit: () {},
           onSubAppBarAddOrEdit: () {
-            onAddOrEditSession(
-              context,
-              selectedAppModule: selectedAppModule,
-            );
+            onAddOrEditHousehold(context,
+                selectedAppModule: selectedAppModule,
+               );
           },
           isSubAppBarVisible: true,
-          isFilterApplicable: true,
-          // appBarFilterContainer: const DataFiltersContainer(),
-          // appBarSearchContainer: const DataSearchContainer(),
+          isFilterApplicable: false,
           subAppBarAddActionLabel: 'Add Event',
           isDrawerVisible: true,
           pageBodyContainer: Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10.0,
-              vertical: 10.0,
-            ),
-            child: InfiniteList(),
-          ),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 10.0,
+              ),
+              child: InfiniteList()),
         );
       },
     );

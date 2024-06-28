@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/client_provider/client_provider.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider.dart';
@@ -95,6 +94,12 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
     if (user == null) {
       throw 'Error getting user. Please refresh the application';
     }
+    List<String> programsToSync = user.programs.toList();
+
+    print('**********getProgramm ${programsToSync}');
+    d2ProgramRepository.setupDownload(client, programsToSync).download();
+    await downloadController.addStream(d2ProgramRepository.downloadStream);
+
     D2DataSetRepository d2dataSetRepository = D2DataSetRepository(db);
 
     List<String> dataSetsToSync = user.dataSets
@@ -103,13 +108,7 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
     await d2dataSetRepository
         .setupDownload(client, dataSetIds: dataSetsToSync)
         .download();
-
-    List<String> programsToSync = user.programs
-        .where((element) => AppConfig.programs.contains(element))
-        .toList();
-
-    d2ProgramRepository.setupDownload(client, programsToSync).download();
-    await downloadController.addStream(d2ProgramRepository.downloadStream);
+        print('**********getDataSet${dataSetsToSync}');
   }
 
   Future<dynamic> downloadSelectedMetadata() async {

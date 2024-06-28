@@ -6,7 +6,6 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/action_button.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/line_seperator.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/synchronization_progress_bar.dart';
-import 'package:dhis2_flutter_toolkit_demo_app/core/constants/config.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -239,7 +238,7 @@ class OfflineDataSummaryState extends State<OfflineDataSummary> {
                 isProcessCompleted: true,
                 backgroundColor: const Color(0xFF4B9F64),
                 textColor: const Color(0xFF4B9F64),
-                selectedMetadata: AppConfig.programs,
+                selectedMetadata: AppUtil.getProgramsToSync(user),
                 syncedMetadata: dataUploaded,
                 label: 'Uploading',
               ),

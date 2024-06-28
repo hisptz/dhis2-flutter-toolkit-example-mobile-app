@@ -41,12 +41,8 @@ RouteBase get $moduleSelectionRoute => GoRouteData.$route(
       factory: $ModuleSelectionRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'tracker-program',
-          factory: $TrackerProgramHomeRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'event-program',
-          factory: $EventProgramHomeRouteExtension._fromState,
+          path: 'program/:uid',
+          factory: $ProgramHomeRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'about-information',
@@ -81,30 +77,13 @@ extension $ModuleSelectionRouteExtension on ModuleSelectionRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $TrackerProgramHomeRouteExtension on TrackerProgramHomeRoute {
-  static TrackerProgramHomeRoute _fromState(GoRouterState state) =>
-      TrackerProgramHomeRoute();
-
-  String get location => GoRouteData.$location(
-        '/modules/tracker-program',
+extension $ProgramHomeRouteExtension on ProgramHomeRoute {
+  static ProgramHomeRoute _fromState(GoRouterState state) => ProgramHomeRoute(
+        uid: state.pathParameters['uid']!,
       );
 
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $EventProgramHomeRouteExtension on EventProgramHomeRoute {
-  static EventProgramHomeRoute _fromState(GoRouterState state) =>
-      EventProgramHomeRoute();
-
   String get location => GoRouteData.$location(
-        '/modules/event-program',
+        '/modules/program/${Uri.encodeComponent(uid)}',
       );
 
   void go(BuildContext context) => context.go(location);
