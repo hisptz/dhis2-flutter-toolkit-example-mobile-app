@@ -96,7 +96,6 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
     }
     List<String> programsToSync = user.programs.toList();
 
-    print('**********getProgramm ${programsToSync}');
     d2ProgramRepository.setupDownload(client, programsToSync).download();
     await downloadController.addStream(d2ProgramRepository.downloadStream);
 
@@ -107,7 +106,6 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
         .setupDownload(client, dataSetIds: dataSetsToSync)
         .download();
     await downloadController.addStream(d2dataSetRepository.downloadStream);
-    print('**********getDataSet${dataSetsToSync}');
   }
 
   Future<dynamic> downloadSelectedMetadata() async {

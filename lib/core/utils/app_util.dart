@@ -25,7 +25,6 @@ class AppUtil {
   }
 
   static List<String> getProgramsToSync(D2User? user) {
-    print('**********app_Util_getProgramm ${user?.programs}');
     return user?.programs.toList() ?? [];
   }
 
@@ -41,10 +40,9 @@ class AppUtil {
   }
 
   static List<String> getDataSetsToSync(D2User? user) {
-     print('**********app_Util_getDataset${user?.dataSets}');
     return user?.dataSets.toList() ?? [];
-        //     .where((element) => AppConfig.dataSets.contains(element))
-        //     .toList() ??
-        // [];
+    //     .where((element) => AppConfig.dataSets.contains(element))
+    //     .toList() ??
+    // [];
   }
 }
