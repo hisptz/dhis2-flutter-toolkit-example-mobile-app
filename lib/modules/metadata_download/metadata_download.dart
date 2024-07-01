@@ -103,10 +103,11 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
     D2DataSetRepository d2dataSetRepository = D2DataSetRepository(db);
 
     List<String> dataSetsToSync = user.dataSets.toList();
-    await d2dataSetRepository
+    d2dataSetRepository
         .setupDownload(client, dataSetIds: dataSetsToSync)
         .download();
-        print('**********getDataSet${dataSetsToSync}');
+    await downloadController.addStream(d2dataSetRepository.downloadStream);
+    print('**********getDataSet${dataSetsToSync}');
   }
 
   Future<dynamic> downloadSelectedMetadata() async {
