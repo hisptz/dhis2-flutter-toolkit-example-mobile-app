@@ -4,6 +4,8 @@ import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/program_state/program_state.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/event_helper.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/tracker_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +76,9 @@ class AppModuleSelectionUtil {
         title: program.name,
         icon: Icons.add_home_outlined,
         countLabel: 'Number of Events',
+        helper: program.programType == 'WITH_REGISTRATION'
+                ? TrackerHelper()
+                : EventHelper(),
         description: 'Program Description',
         type: AppNavigationType.dataType,
         programs: [program.uid],

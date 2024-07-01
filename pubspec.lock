@@ -236,11 +236,9 @@ packages:
   dhis2_flutter_toolkit:
     dependency: "direct main"
     description:
-      path: "."
-      ref: develop
-      resolved-ref: c148b487e5eeaf2b33b98561bd0dce492d0632fa
-      url: "https://github.com/hisptz/dhis2_flutter_toolkit.git"
-    source: git
+      path: "/home/allen/Projects/HISP/Mobile/dhis2-flutter-toolkit"
+      relative: false
+    source: path
     version: "0.0.51"
   dhis2_flutter_ui:
     dependency: transitive

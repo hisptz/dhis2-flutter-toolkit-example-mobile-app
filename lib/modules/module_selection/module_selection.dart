@@ -6,6 +6,8 @@ import 'package:dhis2_flutter_toolkit_demo_app/core/components/navigation_drawer
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/app_module_selection_util.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/event_helper.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/tracker_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/module_selection/components/module_selection_container.dart';
@@ -49,10 +51,14 @@ class _ModuleSelectionState extends State<ModuleSelection> {
         List<AppModule> appModules = programs.map((program) {
           return AppModule(
             title: program.name,
+            countLabel: 'Number of Events',
             description: program.programType == 'WITH_REGISTRATION'
                 ? 'Tracker Program'
                 : 'Event Program',
             type: AppNavigationType.dataType,
+            helper: program.programType == 'WITH_REGISTRATION'
+                ? TrackerHelper()
+                : EventHelper(),
             programs: [program.uid],
             dataType: program.programType == 'WITH_REGISTRATION'
                 ? ModuleDataType.tracker
@@ -86,7 +92,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
             programs: [dataset.uid],
             dataType: ModuleDataType.aggregate,
             color: CustomColor.primaryColor,
-             icon: Icons.add_home_outlined,
+            icon: Icons.add_home_outlined,
             homeRoutePath: '/dataset/${dataset.uid}',
             db: db,
           );

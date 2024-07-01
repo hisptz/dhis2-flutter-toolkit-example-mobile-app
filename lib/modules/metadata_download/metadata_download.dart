@@ -34,7 +34,7 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
     MetadataDownloadConstant.systemInfo,
     MetadataDownloadConstant.reportingHierarchy,
     MetadataDownloadConstant.formMetadata,
-    // MetadataDownloadConstant.reservedValues,
+    MetadataDownloadConstant.reservedValues,
   ];
   bool _syncAction = false;
 
@@ -161,18 +161,18 @@ class MetadataDownloadHomeState extends State<MetadataDownloadHome> {
         });
       }
 
-      // if (selectedMetadata.contains(MetadataDownloadConstant.reservedValues)) {
-      //   D2ReservedValueRepository d2reservedValueRepository =
-      //       D2ReservedValueRepository(db);
-      //   d2reservedValueRepository.setupDownload(client: client);
-      //   // d2reservedValueRepository.downloadAllReservedValues(
-      //   //     numberToReserve: AppConfig.numberToReserve);
-      //   await downloadController
-      //       .addStream(d2reservedValueRepository.downloadStream);
-      //   setState(() {
-      //     syncedMetadata = syncedMetadata + 1;
-      //   });
-      // }
+      if (selectedMetadata.contains(MetadataDownloadConstant.reservedValues)) {
+        D2ReservedValueRepository d2reservedValueRepository =
+            D2ReservedValueRepository(db);
+        d2reservedValueRepository.setupDownload(client: client);
+        d2reservedValueRepository.downloadAllReservedValues(
+            numberToReserve: AppConfig.numberToReserve);
+        await downloadController
+            .addStream(d2reservedValueRepository.downloadStream);
+        setState(() {
+          syncedMetadata = syncedMetadata + 1;
+        });
+      }
     } catch (e) {
       debugPrint(e.toString());
       setState(() {

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dart_date/dart_date.dart';
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/app_module_data/app_module_data.dart';
@@ -14,10 +13,6 @@ import '../../../models/app_module.dart';
 class EventHelper extends BaseAppModuleHelper<D2Event> {
   @override
   List<Map<String, String>> fieldConfig = [];
-
-  String titleUId = 'OJT6yAkrnow';
-  String otherSpecifyUid = 'xkbLnxT3uwX';
-  String EventHelperProgram = 'qjFCUqsA0vZ';
 
   String? title;
 
@@ -42,31 +37,10 @@ class EventHelper extends BaseAppModuleHelper<D2Event> {
   @override
   ListCardData toListCard(D2Event entity) {
     bool synced = entity.synced;
-    List<D2DataValue> dataValues = entity.dataValues;
-    Map<String, String> fields = {};
-    for (var field in fieldConfig) {
-      D2DataValue? dataValue = dataValues.firstWhereOrNull(
-          (element) => element.dataElement.target!.uid == field['id']);
-      String label = field['label']!;
-      fields.addAll({label: dataValue?.getDisplayValue() ?? ''});
-    }
-
-    var dataValue = dataValues.firstWhereOrNull(
-        (element) => element.dataElement.target!.uid == titleUId);
-
-    String otherSpecify = dataValues
-            .firstWhereOrNull(
-                (element) => element.dataElement.target!.uid == otherSpecifyUid)
-            ?.getDisplayValue() ??
-        '';
-
-    String title = dataValue?.value == 'OET'
-        ? otherSpecify
-        : dataValue?.getDisplayValue() ?? '';
-
+   
     return ListCardData(
         id: entity.uid,
-        title: title,
+        title: 'Event ',
         onSync: (BuildContext context) {
           // AppUtil.uploadEventData(context, EventHelperProgram, entity);
         },
@@ -92,6 +66,6 @@ class EventHelper extends BaseAppModuleHelper<D2Event> {
         svgIcon: selectedAppModule!.svgIcon,
         actionButtonAlignment: MainAxisAlignment.end,
         date: entity.occurredAt!.format(AppConfig.dateFormat),
-        fields: fields);
+        );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/app_module_helper.dart';
@@ -75,7 +74,9 @@ class AppModule {
           break;
       }
 
-     
+      if (helper == null) {
+        throw 'App Module does not have a helper';
+      }
       helper?.setModule(this);
     }
   }

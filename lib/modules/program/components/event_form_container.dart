@@ -34,21 +34,16 @@ class _EventFormContainerState extends State<EventFormContainer> {
   initializeController() {
     D2ObjectBox db = Provider.of<DBState>(context, listen: false).db;
     D2User? user = Provider.of<UserState>(context, listen: false).user;
-    List<String>? compatibleOrgUnits = user?.organisationUnits
-        .where((String orgUnitId) => widget
-            .selectedAppModule.data!.repository.program!.organisationUnits
-            .any((D2OrgUnit orgUnit) => orgUnit.uid == orgUnitId))
-        .toList();
-    if (compatibleOrgUnits != null && compatibleOrgUnits.isNotEmpty) {
-      controller = D2TrackerEventFormController(
-        db: db,
-        event: widget.event,
-        programStage: widget
-            .selectedAppModule.data!.repository.program!.programStages.first,
-        orgUnit: user?.organisationUnits.first,
-        mandatoryFields: ['geometry', 'occurredAt'],
-      );
-    }
+
+    if (user!.organisationUnits.isNotEmpty) {
+    controller = D2TrackerEventFormController(
+      db: db,
+      event: widget.event,
+      programStage: widget
+          .selectedAppModule.data!.repository.program!.programStages.first,
+      orgUnit: user.organisationUnits.first,
+      mandatoryFields: ['geometry', 'occurredAt'],
+    );}
   }
 
   @override

@@ -74,9 +74,9 @@ class _InitialMetadataDownloadPageState
     // Downloading metadata for the modules
     await initializeProgramDownload(db: db, client: client);
     d2reservedValueRepository.setupDownload(client: client);
-    // await d2reservedValueRepository.downloadAllReservedValues(
-    //     numberToReserve:
-    //         AppConfig.numberToReserve);
+    await d2reservedValueRepository.downloadAllReservedValues(
+        numberToReserve:
+            AppConfig.numberToReserve);
     d2dataStoreRepository.setupDownload(client: client);
     // await d2dataStoreRepository.initializeDownload(
     //     namespaces: AppConfig.namespaces);
@@ -189,6 +189,26 @@ class _InitialMetadataDownloadPageState
                     allowManualTrigger: hasError,
                   ),
                 ),
+                SizedBox(height: spacingHeight),
+              Consumer<D2ClientState>(
+                builder: (context, clientState, child) =>
+                    MetadataDownloadProgress(
+                  metadataLabel: 'reserved values',
+                  downloadController:
+                      d2reservedValueRepository.downloadController,
+                  onRetry: () async =>
+                      await d2reservedValueRepository.downloadAllReservedValues(
+                          numberToReserve: AppConfig.numberToReserve),
+                  allowManualTrigger: hasError,
+                  onDownload: () async {
+                    d2reservedValueRepository.setupDownload(
+                        client: clientState.client);
+                    return await d2reservedValueRepository
+                        .downloadAllReservedValues(
+                            numberToReserve: AppConfig.numberToReserve);
+                  },
+                ),
+              ),
                 SizedBox(
                   height: spacingHeight * 4,
                 ),

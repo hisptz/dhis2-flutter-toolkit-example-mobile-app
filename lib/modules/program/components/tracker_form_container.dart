@@ -44,18 +44,14 @@ class _TrackerFormContainerState
       return;
     }
 
-    List<String>? compatibleOrgUnits = user?.organisationUnits
-        .where((String orgUnitId) => widget.program!.organisationUnits
-            .any((D2OrgUnit orgUnit) => orgUnit.uid == orgUnitId))
-        .toList();
-
-    if (compatibleOrgUnits != null && compatibleOrgUnits.isNotEmpty) {
+   
+    if (user!.organisationUnits.isNotEmpty) {
       controller = D2TrackerEnrollmentFormController(
         db: db,
         enrollment: widget.enrollment,
         trackedEntity: widget.trackedEntity,
         program: widget.program!,
-        orgUnit: compatibleOrgUnits.first,
+        orgUnit: user.organisationUnits.first,
         mandatoryFields: ['geometry'],
       );
     }
