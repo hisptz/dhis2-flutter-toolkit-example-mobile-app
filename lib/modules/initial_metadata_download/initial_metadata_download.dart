@@ -33,6 +33,7 @@ class _InitialMetadataDownloadPageState
   late D2ReservedValueRepository d2reservedValueRepository;
   late D2DataStoreRepository d2dataStoreRepository;
   late D2DataSetRepository d2dataSetRepository;
+  late StreamController<D2SyncStatus> formMetadataController;
 
   Future initializeOrgUnitDownload(
       {required D2ClientService client, required D2ObjectBox db}) async {
@@ -50,6 +51,7 @@ class _InitialMetadataDownloadPageState
 
   Future<void> initializeMetadataDownload() async {
     D2ObjectBox db = Provider.of<DBState>(context, listen: false).db;
+    formMetadataController = StreamController<D2SyncStatus>();
     D2ClientService client =
         Provider.of<D2ClientState>(context, listen: false).client;
 
@@ -83,6 +85,7 @@ class _InitialMetadataDownloadPageState
   Future<void> initializeProgramDownload(
       {required D2ObjectBox db, required D2ClientService client}) async {
     await d2TrackedEntityTypeRepository.setupDownload(client).download();
+
     await d2RelationshipTypeRepository.setupDownload(client).download();
 
     //Get the saved user first and get the programs
@@ -90,13 +93,15 @@ class _InitialMetadataDownloadPageState
     if (user == null) {
       throw 'Error getting user. Please refresh the application';
     }
-   
-    List<String> programsToSync = AppUtil.getProgramsToSync(user);
-    await d2ProgramRepository.setupDownload(client, programsToSync).download();
-     List<String> dataSetsToSync = AppUtil.getDataSetsToSync(user);
-    await d2dataSetRepository
+    List<String> dataSetsToSync = AppUtil.getDataSetsToSync(user);
+    d2dataSetRepository
         .setupDownload(client, dataSetIds: dataSetsToSync)
         .download();
+    await formMetadataController.addStream(d2dataSetRepository.downloadStream);
+
+    List<String> programsToSync = AppUtil.getProgramsToSync(user);
+    d2ProgramRepository.setupDownload(client, programsToSync).download();
+    await formMetadataController.addStream(d2ProgramRepository.downloadStream);
   }
 
   @override
@@ -126,6 +131,7 @@ class _InitialMetadataDownloadPageState
     d2SystemInfoRepository.downloadController.close();
     d2UserRepository.downloadController.close();
     d2reservedValueRepository.downloadController.close();
+    formMetadataController.close();
     super.dispose();
   }
 
@@ -176,7 +182,7 @@ class _InitialMetadataDownloadPageState
                   builder: (BuildContext context, dbState, child) =>
                       MetadataDownloadProgress(
                     metadataLabel: 'form configurations',
-                    downloadController: d2ProgramRepository.downloadController,
+                    downloadController: formMetadataController,
                     onRetry: d2ProgramRepository.download,
                     onDownload: () => initializeProgramDownload(
                         db: dbState.db, client: d2Client.client),
