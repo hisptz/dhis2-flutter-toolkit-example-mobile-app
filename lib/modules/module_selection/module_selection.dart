@@ -86,8 +86,8 @@ class _ModuleSelectionState extends State<ModuleSelection> {
         List<AppModule> appModules = datasets.map((dataset) {
           return AppModule(
             title: dataset.name,
-            countLabel: 'Number of Events',
-            description: 'Dataset Description',
+            countLabel: 'Number of options',
+            description: 'Dataset',
             type: AppNavigationType.dataType,
             programs: [],
             dataSets: [dataset.uid],

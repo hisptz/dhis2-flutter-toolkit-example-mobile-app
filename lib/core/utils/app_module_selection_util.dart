@@ -1,4 +1,3 @@
-
 import 'package:collection/collection.dart';
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/program_state/program_state.dart';
@@ -27,13 +26,14 @@ class AppModuleSelectionUtil {
         .firstWhereOrNull((AppModule appModule) => appModule.id == id);
   }
 
-
-  Future<List<D2Program>> getPrograms({required int offset, required int limit}) {
+  Future<List<D2Program>> getPrograms(
+      {required int offset, required int limit}) {
     ProgramRepository programRepo = ProgramRepository(db);
     return programRepo.getPrograms(offset: offset, limit: limit);
   }
 
-  Future<List<D2DataSet>> getDatasets({required int offset, required int limit}) {
+  Future<List<D2DataSet>> getDatasets(
+      {required int offset, required int limit}) {
     ProgramRepository programRepo = ProgramRepository(db);
     return programRepo.getDatasets(offset: offset, limit: limit);
   }
@@ -43,8 +43,6 @@ class AppModuleSelectionUtil {
     ProgramRepository programRepo = ProgramRepository(db);
     List<D2Program> programs = programRepo.getAllPrograms();
     List<D2DataSet> dataSets = programRepo.getAllDataSets();
-
-  
 
     List<AppModule> modules = [
       AppModule(
@@ -80,8 +78,8 @@ class AppModuleSelectionUtil {
         icon: Icons.add_home_outlined,
         countLabel: 'Number of Events',
         helper: program.programType == 'WITH_REGISTRATION'
-                ? TrackerHelper()
-                : EventHelper(),
+            ? TrackerHelper()
+            : EventHelper(),
         description: 'Program Description',
         type: AppNavigationType.dataType,
         programs: [program.uid],
@@ -93,18 +91,19 @@ class AppModuleSelectionUtil {
         db: db,
       ));
     }
-    for (D2DataSet dataSet in dataSets) {
+    for (D2DataSet dataset in dataSets) {
       modules.add(AppModule(
-        title: dataSet.name,
-        icon: Icons.add_home_outlined,
-        countLabel: 'Number of Events',
-        helper: AggregateHelper(),
-        description: 'dataSet Description',
+        title: dataset.name,
+        countLabel: 'Number of options',
+        description: 'Dataset',
         type: AppNavigationType.dataType,
-        dataSets: [dataSet.uid],
+        programs: [],
+        dataSets: [dataset.uid],
+        helper: AggregateHelper(),
         dataType: ModuleDataType.aggregate,
-        color:  CustomColor.primaryColor,
-        homeRoutePath: '/dataset/${dataSet.uid}',
+        color: CustomColor.primaryColor,
+        icon: Icons.add_home_outlined,
+        homeRoutePath: '/dataset/${dataset.uid}',
         db: db,
       ));
     }

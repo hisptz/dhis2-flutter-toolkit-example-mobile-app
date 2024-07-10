@@ -13,6 +13,8 @@ class AppModuleAggregateData
   D2User? user;
   List<D2DataValueSet> dataValues = [];
 
+  int? activeCount;
+
   String? get period {
     return filters['period']?.selected.first;
   }
@@ -90,7 +92,9 @@ class AppModuleAggregateData
   D2DataValueSetRepository repository;
 
   @override
-  void init() {}
+  void init() {
+    updateCount();
+  }
 
   @override
   void updateCount() {
