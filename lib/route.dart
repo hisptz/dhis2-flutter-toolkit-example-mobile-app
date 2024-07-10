@@ -6,6 +6,7 @@ import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/user_state/user_state.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/about_information/about_information.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/data_synchronization/data_synchronization.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/modules/datasets/dataset_home.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/initial_metadata_download/initial_metadata_download.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/login/login.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/modules/metadata_download/metadata_download.dart';
@@ -73,6 +74,7 @@ class MainRoute extends GoRouteData {
     name: 'modules-list',
     routes: [
       TypedGoRoute<ProgramHomeRoute>(path: 'program/:uid'),
+       TypedGoRoute<DatasetHomeRoute>(path: 'dataset/:uid'),
       TypedGoRoute<AboutInformationHomeRoute>(path: 'about-information'),
       TypedGoRoute<DataSynchronizationHomeRoute>(path: 'data-synchronization'),
       TypedGoRoute<MetadataDownloadHomeRoute>(path: 'metadata-download'),
@@ -113,6 +115,20 @@ class ProgramHomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ProgramHome(
+      id: uid,
+    );
+  }
+}
+
+class DatasetHomeRoute extends GoRouteData {
+  final String uid;
+
+  DatasetHomeRoute(
+      {required this.uid});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DatasetHome(
       id: uid,
     );
   }

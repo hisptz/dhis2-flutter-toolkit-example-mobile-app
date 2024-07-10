@@ -45,6 +45,10 @@ RouteBase get $moduleSelectionRoute => GoRouteData.$route(
           factory: $ProgramHomeRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'dataset/:uid',
+          factory: $DatasetHomeRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'about-information',
           factory: $AboutInformationHomeRouteExtension._fromState,
         ),
@@ -84,6 +88,25 @@ extension $ProgramHomeRouteExtension on ProgramHomeRoute {
 
   String get location => GoRouteData.$location(
         '/modules/program/${Uri.encodeComponent(uid)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DatasetHomeRouteExtension on DatasetHomeRoute {
+  static DatasetHomeRoute _fromState(GoRouterState state) => DatasetHomeRoute(
+        uid: state.pathParameters['uid']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/modules/dataset/${Uri.encodeComponent(uid)}',
       );
 
   void go(BuildContext context) => context.go(location);
