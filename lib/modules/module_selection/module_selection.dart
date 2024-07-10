@@ -1,11 +1,11 @@
 import 'package:dhis2_flutter_toolkit/dhis2_flutter_toolkit.dart';
-import 'package:dhis2_flutter_toolkit/objectbox.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/db_provider/db_provider.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/app_state/module_selection/module_selection.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/navigation_drawer/navigation_drawer_container.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/app_module_selection_util.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/aggregate_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/event_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/tracker_helper.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
@@ -89,7 +89,9 @@ class _ModuleSelectionState extends State<ModuleSelection> {
             countLabel: 'Number of Events',
             description: 'Dataset Description',
             type: AppNavigationType.dataType,
-            programs: [dataset.uid],
+            programs: [],
+            dataSets: [dataset.uid],
+            helper:AggregateHelper(),
             dataType: ModuleDataType.aggregate,
             color: CustomColor.primaryColor,
             icon: Icons.add_home_outlined,
@@ -108,6 +110,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
       }
     } catch (error) {
       _pagingController.error = error;
+      print('*****error ${_pagingController.error}');
     }
   }
 

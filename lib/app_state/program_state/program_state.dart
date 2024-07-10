@@ -9,6 +9,10 @@ class ProgramRepository {
     return _box.getAll();
   }
 
+  List<D2DataSet> getAllDataSets() {
+    return _datasetBox.getAll();
+  }
+
   ProgramRepository(D2ObjectBox db)
       : _box = db.store.box<D2Program>(),
         _datasetBox = db.store.box<D2DataSet>();
