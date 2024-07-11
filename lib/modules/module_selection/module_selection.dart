@@ -23,7 +23,7 @@ class ModuleSelection extends StatefulWidget {
 class _ModuleSelectionState extends State<ModuleSelection> {
   final PagingController<int, AppModule> _pagingController =
       PagingController(firstPageKey: 0);
-  static const int pageSize = 20;
+  static const int pageSize = 50;
   bool isProgramSelected = true;
 
   @override
@@ -64,14 +64,16 @@ class _ModuleSelectionState extends State<ModuleSelection> {
   }
 
   onOpenAppModule(BuildContext context) {
-    
     AppModule appModule =
         Provider.of<AppModuleSelectionState>(context, listen: false)
             .selectedAppModule;
     context.replace('/modules${appModule.homeRoutePath ?? ''}');
   }
 
- void onTapAppModule(BuildContext context, AppModule appModule, int index) {
+  onTapAppModule(
+    BuildContext context, {
+    required AppModule appModule,
+  }) {
     Provider.of<AppModuleSelectionState>(context, listen: false)
         .setSelectedAppModule(appModule: appModule);
   }
@@ -127,7 +129,7 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                     backgroundColor: Color.fromARGB(255, 251, 253, 255),
                     foregroundColor: Colors.black,
                     selectedForegroundColor: Colors.white,
-                    selectedBackgroundColor: CustomColor.primaryColor,
+                    selectedBackgroundColor: selectedAppModule.color ?? CustomColor.primaryColor,
                   ),
                   segments: const <ButtonSegment<Type>>[
                     ButtonSegment<Type>(
@@ -144,10 +146,11 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                   selected: {isProgramSelected ? Type.program : Type.dataset},
                   onSelectionChanged: _onSegmentSelected,
                 ),
-                 Expanded(
+                Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    padding: EdgeInsets.all(8.0),
                     child: PagedListView<int, AppModule>(
+                      key: PageStorageKey('module_list'),
                       pagingController: _pagingController,
                       builderDelegate: PagedChildBuilderDelegate<AppModule>(
                         itemBuilder: (context, appModule, index) {
@@ -156,7 +159,8 @@ class _ModuleSelectionState extends State<ModuleSelection> {
                             appModule: appModule,
                             isOpen: appModule.id == selectedAppModule.id,
                             onOpen: () => onOpenAppModule(context),
-                            onTap: () => onTapAppModule(context, appModule, index),
+                            onTap: () =>
+                                onTapAppModule(context, appModule: appModule),
                           );
                         },
                       ),
@@ -171,4 +175,3 @@ class _ModuleSelectionState extends State<ModuleSelection> {
     );
   }
 }
-
