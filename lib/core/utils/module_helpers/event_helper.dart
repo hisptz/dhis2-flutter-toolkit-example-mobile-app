@@ -35,12 +35,12 @@ class EventHelper extends BaseAppModuleHelper<D2Event> {
   }
 
   @override
-  ListCardData toListCard(D2Event entity) {
+  ListCardData toListCard(D2Event entity, String index) {
     bool synced = entity.synced;
    
     return ListCardData(
         id: entity.uid,
-        title: 'Event ',
+        title: 'Event $index',
         onSync: (BuildContext context) {
           // AppUtil.uploadEventData(context, EventHelperProgram, entity);
         },

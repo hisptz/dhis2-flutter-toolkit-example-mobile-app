@@ -38,7 +38,7 @@ class TrackerHelper extends BaseAppModuleHelper<D2Enrollment> {
   }
 
   @override
-  ListCardData toListCard(D2Enrollment entity) {
+  ListCardData toListCard(D2Enrollment entity, String index) {
    
     D2TrackedEntity trackedEntity = entity.trackedEntity.target!;
 
@@ -46,7 +46,7 @@ class TrackerHelper extends BaseAppModuleHelper<D2Enrollment> {
 
     return ListCardData(
       id: entity.uid,
-      title: 'Event',
+      title: 'Event $index',
       onSync: (context) async {
         // await AppUtil.uploadTrackerData(
         //     context, householdProgram, entity, trackedEntity);

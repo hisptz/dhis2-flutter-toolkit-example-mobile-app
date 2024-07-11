@@ -35,7 +35,7 @@ abstract class BaseAppModuleHelper<T> {
 
   abstract List<Map<String, String>> fieldConfig;
 
-  ListCardData toListCard(T entity);
+  ListCardData toListCard(T entity, String string);
 
   void setModule(AppModule module) {
     selectedAppModule = module;

@@ -37,10 +37,16 @@ mixin AppModulePaginatedData<
 
     List<DataType> entities = query.find();
 
-    List<ListDataType> listData = entities
-        .map<ListDataType>(
-            (data) => module.helper!.toListCard(data) as ListDataType)
-        .toList();
+    List<ListDataType> listData = entities.asMap().entries.map<ListDataType>(
+        (entry) {
+          var listCardData = module.helper?.toListCard(entry.value, (page * _pageSize + entry.key + 1).toString());
+          if (listCardData != null && listCardData is ListDataType) {
+            return listCardData as ListDataType;
+          } else {
+            throw TypeError();
+          }
+        }).toList();
+
     bool isLastPage = page == numberOfPages - 1;
     if (isLastPage) {
       _controller.appendLastPage(listData);
@@ -48,7 +54,6 @@ mixin AppModulePaginatedData<
       _controller.appendPage(listData, page + 1);
     }
   }
-
   initializeController() {
     _controller = PagingController<int, ListDataType>(firstPageKey: 0);
     _controller.addPageRequestListener((pageKey) {

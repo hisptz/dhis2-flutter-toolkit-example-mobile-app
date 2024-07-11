@@ -15,7 +15,7 @@ import '../../../models/app_module.dart';
 class AggregateHelper extends BaseAppModuleHelper<D2DataElement> {
 
   @override
-  ListCardData toListCard(D2DataElement entity) {
+  ListCardData toListCard(D2DataElement entity, String index) {
     Map<String, String> options = {};
 
     for (var option in entity.categoryCombo.target!.categoryOptionCombos) {
