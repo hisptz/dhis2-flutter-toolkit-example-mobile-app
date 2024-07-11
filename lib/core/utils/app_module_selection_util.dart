@@ -15,84 +15,75 @@ class AppModuleSelectionUtil {
 
   AppModuleSelectionUtil(this.db);
 
-  List<AppModule> getAppModuleByType({String type = ''}) {
-    return appModules
-        .where((AppModule appModule) => appModule.type == type)
-        .toList();
-  }
+  // Static AppModule instances
+  static final List<AppModule> staticModules = [
+    AppModule(
+      id: 'metadata-download',
+      title: 'Metadata Download',
+      type: AppNavigationType.actionType,
+      color: CustomColor.primaryColor,
+      homeRoutePath: '/metadata-download',
+    ),
+    AppModule(
+      title: 'Data Synchronization',
+      type: AppNavigationType.actionType,
+      color: CustomColor.primaryColor,
+      homeRoutePath: '/data-synchronization',
+    ),
+    AppModule(
+      title: 'Logout',
+      type: AppNavigationType.actionType,
+      color: CustomColor.primaryColor,
+      isLogOutModule: true,
+    ),
+    AppModule(
+      title: 'About Application',
+      type: AppNavigationType.infoType,
+      color: CustomColor.primaryColor,
+      homeRoutePath: '/about-information',
+    ),
+  ];
 
-  AppModule? getAppModuleById(String id) {
-    return appModules
-        .firstWhereOrNull((AppModule appModule) => appModule.id == id);
-  }
-
-  Future<List<D2Program>> getPrograms(
-      {required int offset, required int limit}) {
+  // Fetch programs from the repository with pagination
+  Future<List<D2Program>> getPrograms({required int offset, required int limit}) {
     ProgramRepository programRepo = ProgramRepository(db);
     return programRepo.getPrograms(offset: offset, limit: limit);
   }
 
-  Future<List<D2DataSet>> getDatasets(
-      {required int offset, required int limit}) {
+  // Fetch datasets from the repository with pagination
+  Future<List<D2DataSet>> getDatasets({required int offset, required int limit}) {
     ProgramRepository programRepo = ProgramRepository(db);
     return programRepo.getDatasets(offset: offset, limit: limit);
   }
 
-  List<AppModule> get appModules {
-    // Fetch D2Program data and add to the modules list
-    ProgramRepository programRepo = ProgramRepository(db);
-    List<D2Program> programs = programRepo.getAllPrograms();
-    List<D2DataSet> dataSets = programRepo.getAllDataSets();
-
-    List<AppModule> modules = [
-      AppModule(
-        id: 'metadata-download',
-        title: 'Metadata Download',
-        type: AppNavigationType.actionType,
-        color: CustomColor.primaryColor,
-        homeRoutePath: '/metadata-download',
-      ),
-      AppModule(
-        title: 'Data Synchronization',
-        type: AppNavigationType.actionType,
-        color: CustomColor.primaryColor,
-        homeRoutePath: '/data-synchronization',
-      ),
-      AppModule(
-        title: 'Logout',
-        type: AppNavigationType.actionType,
-        color: CustomColor.primaryColor,
-        isLogOutModule: true,
-      ),
-      AppModule(
-        title: 'About Application',
-        type: AppNavigationType.infoType,
-        color: CustomColor.primaryColor,
-        homeRoutePath: '/about-information',
-      ),
-    ];
-
-    for (D2Program program in programs) {
-      modules.add(AppModule(
+  List<AppModule> programsList(List<D2Program> programs) {
+    return programs.map((program) {
+      return AppModule(
         title: program.name,
-        icon: Icons.add_home_outlined,
         countLabel: 'Number of Events',
+        description: program.programType == 'WITH_REGISTRATION'
+            ? 'Tracker Program'
+            : 'Event Program',
+        type: AppNavigationType.dataType,
         helper: program.programType == 'WITH_REGISTRATION'
             ? TrackerHelper()
             : EventHelper(),
-        description: 'Program Description',
-        type: AppNavigationType.dataType,
         programs: [program.uid],
         dataType: program.programType == 'WITH_REGISTRATION'
             ? ModuleDataType.tracker
             : ModuleDataType.event,
         color: program.dartColor ?? CustomColor.primaryColor,
+        icon: Icons.add_home_outlined,
         homeRoutePath: '/program/${program.uid}',
         db: db,
-      ));
-    }
-    for (D2DataSet dataset in dataSets) {
-      modules.add(AppModule(
+      );
+    }).toList();
+  }
+
+  
+  List<AppModule> datasetList(List<D2DataSet> datasets) {
+    return datasets.map((dataset) {
+      return AppModule(
         title: dataset.name,
         countLabel: 'Number of options',
         description: 'Dataset',
@@ -105,9 +96,41 @@ class AppModuleSelectionUtil {
         icon: Icons.add_home_outlined,
         homeRoutePath: '/dataset/${dataset.uid}',
         db: db,
-      ));
-    }
+      );
+    }).toList();
+  }
 
+  // Get all AppModules including static ones
+  List<AppModule> get appModules {
+    List<AppModule> modules = List.from(staticModules);
+    ProgramRepository programRepo = ProgramRepository(db);
+    List<D2Program> programs = programRepo.getAllPrograms();
+    List<D2DataSet> dataSets = programRepo.getAllDataSets();
+
+    modules.addAll(programsList(programs));
+    modules.addAll(datasetList(dataSets));
     return modules;
+  }
+
+   Future<List<AppModule>> getDynamicModules({required bool isProgram, required int offset, required int limit}) async {
+    if (isProgram) {
+      List<D2Program> programs = await getPrograms(offset: offset, limit: limit);
+      return programsList(programs);
+    } else {
+      List<D2DataSet> datasets = await getDatasets(offset: offset, limit: limit);
+      return datasetList(datasets);
+    }
+  }
+
+  // Get AppModules by type
+  List<AppModule> getAppModuleByType({String type = ''}) {
+    return appModules
+        .where((AppModule appModule) => appModule.type == type)
+        .toList();
+  }
+
+  // Get AppModule by ID
+  AppModule? getAppModuleById(String id) {
+    return appModules.firstWhereOrNull((AppModule appModule) => appModule.id == id);
   }
 }
