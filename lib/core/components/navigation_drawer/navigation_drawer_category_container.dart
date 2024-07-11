@@ -5,7 +5,6 @@ import 'package:dhis2_flutter_toolkit_demo_app/core/constants/custom_color.dart'
 import 'package:dhis2_flutter_toolkit_demo_app/core/utils/app_module_selection_util.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class NavigationDrawerCategoryContainer extends StatelessWidget {

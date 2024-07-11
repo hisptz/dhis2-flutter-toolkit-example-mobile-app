@@ -5,6 +5,7 @@ import 'package:dhis2_flutter_toolkit_demo_app/core/components/navigation_drawer
 import 'package:dhis2_flutter_toolkit_demo_app/core/components/navigation_drawer/navigation_logout_confirmation_container.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/core/constants/app_navigation_type.dart';
 import 'package:dhis2_flutter_toolkit_demo_app/models/app_module.dart';
+import 'package:dhis2_flutter_toolkit_demo_app/route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class _NavigationDrawerContainerState extends State<NavigationDrawerContainer> {
     });
   }
 
-  void onSelectAppModule(
+  onSelectAppModule(
     BuildContext context, {
     required AppModule appModule,
   }) {
@@ -56,11 +57,16 @@ class _NavigationDrawerContainerState extends State<NavigationDrawerContainer> {
       var currentAppModule =
           Provider.of<AppModuleSelectionState>(context, listen: false)
               .selectedAppModule;
+
       if (currentAppModule.id != appModule.id) {
         Provider.of<AppModuleSelectionState>(context, listen: false)
             .setSelectedAppModule(appModule: appModule);
       }
-      context.go('/modules${appModule.homeRoutePath ?? ''}');
+         if (appModule.programs != null && appModule.programs!.isNotEmpty) {
+        return ProgramHomeRoute(uid: appModule.programs!.first).push(context);
+      }
+        Navigator.of(context).pop();
+         context.go('/modules${appModule.homeRoutePath ?? ''}');
     }
   }
 
