@@ -4,7 +4,6 @@ import 'package:dhis2_flutter_toolkit_demo_app/core/utils/module_helpers/app_mod
 import 'package:dhis2_flutter_toolkit_demo_app/models/base_app_module_data.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-
 mixin AppModulePaginatedData<
     RepoType extends D2BaseTrackerDataRepository,
     DataType extends D2DataResource,
@@ -31,21 +30,22 @@ mixin AppModulePaginatedData<
     int count = query.count();
     int numberOfPages = (count / _pageSize).ceil();
 
-    query
+    Query<DataType> paginatedQuery = query
       ..limit = _pageSize
       ..offset = page * _pageSize;
 
-    List<DataType> entities = query.find();
+    List<DataType> entities = paginatedQuery.find();
 
-    List<ListDataType> listData = entities.asMap().entries.map<ListDataType>(
-        (entry) {
-          var listCardData = module.helper?.toListCard(entry.value, (page * _pageSize + entry.key + 1).toString());
-          if (listCardData != null && listCardData is ListDataType) {
-            return listCardData as ListDataType;
-          } else {
-            throw TypeError();
-          }
-        }).toList();
+    List<ListDataType> listData =
+        entities.asMap().entries.map<ListDataType>((entry) {
+      var listCardData = module.helper?.toListCard(
+          entry.value, (page * _pageSize + entry.key + 1).toString());
+      if (listCardData != null && listCardData is ListDataType) {
+        return listCardData as ListDataType;
+      } else {
+        throw TypeError();
+      }
+    }).toList();
 
     bool isLastPage = page == numberOfPages - 1;
     if (isLastPage) {
@@ -54,6 +54,7 @@ mixin AppModulePaginatedData<
       _controller.appendPage(listData, page + 1);
     }
   }
+
   initializeController() {
     _controller = PagingController<int, ListDataType>(firstPageKey: 0);
     _controller.addPageRequestListener((pageKey) {
